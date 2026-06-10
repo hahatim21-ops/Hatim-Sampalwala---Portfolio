@@ -101,22 +101,22 @@ CHAPTERS.forEach((ch, i) => {
 const LAYOUT = [
   { id: "hero",    w: 1500 },
   { id: "intro",   w: 1100 },
-  { id: "gap1",    w: 700, dy: 60 },
+  { id: "gap1",    w: 900, dy: 100 },
   { id: "essay",   w: 2500 },
-  { id: "gap2",    w: 700, dy: 60 },
+  { id: "gap2",    w: 900, dy: 100 },
   ...CHAPTERS.flatMap((c, i) => {
     const arr = [{ id: "ch" + i, w: 1600 }];
     if ((i + 1) % 3 === 0 && i !== CHAPTERS.length - 1) arr.push({ id: "sl" + i, w: 300 });
     return arr;
   }),
-  { id: "gap3",    w: 700, dy: 60 },
+  { id: "gap3",    w: 900, dy: 100 },
   { id: "compare", w: 1700 },
   { id: "projects", w: 1950 },
-  { id: "gap4",    w: 700, dy: 60 },
+  { id: "gap4",    w: 900, dy: 100 },
   { id: "future1", w: 2100 },
-  { id: "gap5",    w: 700, dy: 60 },
+  { id: "gap5",    w: 900, dy: 100 },
   { id: "future2", w: 1500 },
-  { id: "gap6",    w: 700, dy: 60 },
+  { id: "gap6",    w: 900, dy: 100 },
   { id: "future3", w: 1700 },
   { id: "outro",   w: 950  },
   { id: "gapE",    w: 420  },
@@ -131,7 +131,8 @@ const isMobile = () => matchMedia("(max-width: 900px)").matches;
 
 const SPEED = 1.78;        // scroll px per path px
 const TAU = 0.165;         // smoothing time constant (~0.5s catch-up feel)
-const CORNER = 320;        // corner rounding radius along the path, px
+const DROP_LEAD = 300;     // swoop eases in/out this far beyond the gap edges
+const RIB_MAX = 0.66;      // max visual ribbon angle at descents, rad (~38deg)
 const PLANE_W = 560;       // traveler width px (viewBox 600x260)
 
 let table = [];
@@ -163,18 +164,25 @@ function layout() {
 
     if (spec.dy) {
       const dyPx = spec.dy * vh / 100;
+      const win = spec.w + DROP_LEAD * 2;     // full horizontal span of the swoop
       const rib = el.querySelector(".gap__rib");
       if (rib) {
-        const ang = Math.atan2(dyPx, spec.w);
-        rib.style.width = Math.hypot(spec.w, dyPx) * 1.12 + "px";
+        const ang = Math.min(Math.atan2(dyPx, win), RIB_MAX);
+        rib.style.width = Math.hypot(win, dyPx) + "px";
         rib.style.transform = `rotate(${ang}rad)`;
       }
       const dash = el.querySelector(".gap__dash");
-      if (dash) dash.style.height = dyPx + vh + "px";
+      if (dash) { dash.style.left = (spec.w - 48) + "px"; dash.style.height = dyPx + vh + "px"; }
+      // the dive starts before the seam and lands after it, so the panels
+      // stay in frame while the camera drops a floor — like the original
+      corners[corners.length - 1].x -= DROP_LEAD;
+      x += spec.w;
+      yVh += spec.dy;
+      corners.push({ x: x + DROP_LEAD, y: yVh * vh / 100 });
+    } else {
+      x += spec.w;
+      corners.push({ x, y: yVh * vh / 100 });
     }
-    x += spec.w;
-    yVh += spec.dy || 0;
-    corners.push({ x, y: yVh * vh / 100 });
   }
   worldW = x;
   worldH = yVh * vh / 100 + vh;
@@ -198,28 +206,23 @@ function layout() {
   lastDrawn = -1;
 }
 
-/* densify the corner polyline into a path with rounded corners */
+/* Densify the corner polyline into a smooth path. Flat runs stay perfectly
+   flat; each descent becomes one continuous S-curve (smoothstep in y) with
+   horizontal tangents at both ends — the camera eases into the drop, swoops
+   through the steep middle, and eases out into the next panel, like the
+   original's MotionPath with curviness. No straight diagonal ramps. */
 function buildPath(pts) {
   const dense = [pts[0]];
-  for (let i = 1; i < pts.length - 1; i++) {
-    const p = pts[i - 1], c = pts[i], n = pts[i + 1];
-    const inLen = Math.hypot(c.x - p.x, c.y - p.y);
-    const outLen = Math.hypot(n.x - c.x, n.y - c.y);
-    const straight = Math.abs(Math.atan2(c.y - p.y, c.x - p.x) - Math.atan2(n.y - c.y, n.x - c.x)) < 0.01;
-    if (straight) { dense.push(c); continue; }
-    const r = Math.min(CORNER, inLen / 2, outLen / 2);
-    const a = { x: c.x - ((c.x - p.x) / inLen) * r, y: c.y - ((c.y - p.y) / inLen) * r };
-    const b = { x: c.x + ((n.x - c.x) / outLen) * r, y: c.y + ((n.y - c.y) / outLen) * r };
-    dense.push(a);
-    for (let t = 1; t <= 11; t++) {
-      const u = t / 12;
-      const x1 = a.x + (c.x - a.x) * u, y1 = a.y + (c.y - a.y) * u;
-      const x2 = c.x + (b.x - c.x) * u, y2 = c.y + (b.y - c.y) * u;
-      dense.push({ x: x1 + (x2 - x1) * u, y: y1 + (y2 - y1) * u });
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1], b = pts[i];
+    if (a.y === b.y) { dense.push(b); continue; }       // flat run: a line is enough
+    const steps = 30;
+    for (let s = 1; s <= steps; s++) {
+      const t = s / steps;
+      const e = t * t * (3 - 2 * t);                    // smoothstep ease for the drop
+      dense.push({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * e });
     }
-    dense.push(b);
   }
-  dense.push(pts[pts.length - 1]);
 
   table = [{ d: 0, x: dense[0].x, y: dense[0].y }];
   let d = 0;
