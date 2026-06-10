@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hatim Sampalwala — Digital Strategy Portfolio</title>
+<meta name="description" content="Hatim Sampalwala — Management & Marketing student in Mumbai. Digital marketing, SEO, social media and ecommerce. A horizontal scrollytelling portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Libre+Franklin:ital,wght@0,400;0,500;0,700;0,800;1,400&family=Oswald:wght@400;500;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ====================== SVG DEFS: painterly filters + artwork ====================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="rough" x="-25%" y="-25%" width="150%" height="150%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="11"/>
+    </filter>
+    <filter id="wash" x="-30%" y="-30%" width="160%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="4" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="46"/>
+      <feGaussianBlur stdDeviation="0.6"/>
+    </filter>
+    <filter id="speck" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" seed="5" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="20"/>
+    </filter>
+
+    <!-- watercolor splash backdrop -->
+    <symbol id="splash" viewBox="0 0 700 360" overflow="visible">
+      <g filter="url(#wash)">
+        <rect x="90" y="100" width="330" height="150" fill="#9db6c4" opacity=".50"/>
+        <rect x="250" y="60" width="340" height="190" fill="currentColor" opacity=".38"/>
+        <rect x="150" y="200" width="420" height="80" fill="#8a8378" opacity=".34"/>
+        <rect x="60" y="150" width="180" height="120" fill="currentColor" opacity=".22"/>
+      </g>
+      <g filter="url(#speck)" opacity=".7">
+        <circle cx="120" cy="110" r="6" fill="currentColor"/>
+        <circle cx="600" cy="90" r="4" fill="#1d1e1f" opacity=".5"/>
+        <circle cx="560" cy="270" r="7" fill="currentColor"/>
+        <circle cx="70" cy="250" r="4" fill="#1d1e1f" opacity=".4"/>
+        <circle cx="350" cy="40" r="3" fill="currentColor"/>
+        <circle cx="660" cy="180" r="5" fill="currentColor" opacity=".6"/>
+      </g>
+    </symbol>
+
+    <!-- paper plane: the traveler the camera overtakes -->
+    <symbol id="icon-plane" viewBox="0 0 600 260" overflow="visible">
+      <g filter="url(#rough)">
+        <ellipse cx="300" cy="244" rx="240" ry="8" fill="#1d1e1f" opacity=".14"/>
+        <path d="M40 150 L560 40 L330 200 Z" fill="currentColor"/>
+        <path d="M40 150 L560 40 L260 130 Z" fill="#000" opacity=".18"/>
+        <path d="M260 130 L560 40 L330 200 L300 160 Z" fill="#fff" opacity=".22"/>
+        <path d="M300 160 L330 200 L310 236 Z" fill="#000" opacity=".25"/>
+        <path d="M90 196 Q160 188 220 196 M120 218 Q180 210 240 218" stroke="currentColor" stroke-width="6" fill="none" opacity=".5"/>
+      </g>
+    </symbol>
+
+    <!-- graduation cap + book -->
+    <symbol id="icon-grad" viewBox="0 0 360 300" overflow="visible">
+      <g filter="url(#rough)">
+        <path d="M180 50 L330 110 L180 170 L30 110 Z" fill="currentColor"/>
+        <path d="M180 50 L330 110 L180 170 L180 110 Z" fill="#000" opacity=".15"/>
+        <path d="M110 145 L110 205 Q180 240 250 205 L250 145 L180 175 Z" fill="currentColor"/>
+        <path d="M110 145 L110 205 Q145 222 180 224 L180 175 Z" fill="#000" opacity=".18"/>
+        <path d="M300 122 L300 196" stroke="#1d1e1f" stroke-width="6"/>
+        <circle cx="300" cy="206" r="10" fill="#df4125"/>
+        <path d="M60 250 Q120 235 180 250 Q240 235 300 250 L300 272 Q240 258 180 272 Q120 258 60 272 Z" fill="#e4d9ca" stroke="#1d1e1f" stroke-width="3"/>
+        <path d="M180 250 L180 272" stroke="#1d1e1f" stroke-width="3"/>
+      </g>
+    </symbol>
+
+    <!-- parcel box (content & ops / ecommerce) -->
+    <symbol id="icon-box" viewBox="0 0 360 300" overflow="visible">
+      <g filter="url(#rough)">
+        <path d="M60 110 L180 60 L300 110 L180 160 Z" fill="currentColor"/>
+        <path d="M60 110 L180 160 L180 270 L60 220 Z" fill="currentColor"/>
+        <path d="M60 110 L180 160 L180 270 L60 220 Z" fill="#000" opacity=".22"/>
+        <path d="M300 110 L180 160 L180 270 L300 220 Z" fill="currentColor"/>
+        <path d="M300 110 L180 160 L180 270 L300 220 Z" fill="#000" opacity=".10"/>
+        <path d="M120 85 L240 135 L240 175 L120 125 Z" fill="#e4d9ca" opacity=".9"/>
+        <path d="M180 60 L180 160" stroke="#f4ede6" stroke-width="7" opacity=".7"/>
+        <circle cx="262" cy="196" r="13" fill="#f4ede6" stroke="#1d1e1f" stroke-width="2.5"/>
+        <path d="M256 196 L261 201 L270 190" stroke="#df4125" stroke-width="3" fill="none"/>
+      </g>
+    </symbol>
+
+    <!-- camera (media departments) -->
+    <symbol id="icon-camera" viewBox="0 0 360 300" overflow="visible">
+      <g filter="url(#rough)">
+        <rect x="50" y="100" width="260" height="150" rx="14" fill="currentColor"/>
+        <rect x="50" y="100" width="260" height="40" rx="14" fill="#000" opacity=".18"/>
+        <path d="M130 100 L150 70 L210 70 L230 100 Z" fill="currentColor"/>
+        <circle cx="180" cy="175" r="52" fill="#1d1e1f"/>
+        <circle cx="180" cy="175" r="36" fill="#3c4a52"/>
+        <circle cx="166" cy="162" r="10" fill="#cfd8da" opacity=".8"/>
+        <rect x="262" y="118" width="28" height="16" rx="4" fill="#df4125"/>
+        <circle cx="86" cy="128" r="9" fill="#f4ede6" opacity=".85"/>
+      </g>
+    </symbol>
+
+    <!-- magnifier + rising bars (SEO) -->
+    <symbol id="icon-seo" viewBox="0 0 360 300" overflow="visible">
+      <g filter="url(#rough)">
+        <rect x="60" y="190" width="34" height="60" fill="currentColor"/>
+        <rect x="112" y="160" width="34" height="90" fill="currentColor"/>
+        <rect x="164" y="125" width="34" height="125" fill="currentColor"/>
+        <rect x="216" y="90" width="34" height="160" fill="currentColor" opacity=".75"/>
+        <path d="M70 150 Q140 90 230 96" stroke="#df4125" stroke-width="7" fill="none"/>
+        <path d="M230 96 L206 88 M230 96 L224 120" stroke="#df4125" stroke-width="7" fill="none"/>
+        <circle cx="252" cy="140" r="56" fill="none" stroke="#1d1e1f" stroke-width="12"/>
+        <circle cx="252" cy="140" r="44" fill="#9db6c4" opacity=".25"/>
+        <path d="M292 182 L330 222" stroke="#1d1e1f" stroke-width="16" stroke-linecap="round"/>
+      </g>
+    </symbol>
+
+    <!-- smartphone with engagement (social media) -->
+    <symbol id="icon-phone" viewBox="0 0 360 300" overflow="visible">
+      <g filter="url(#rough)">
+        <rect x="110" y="40" width="140" height="230" rx="20" fill="#1d1e1f"/>
+        <rect x="122" y="64" width="116" height="182" rx="8" fill="currentColor"/>
+        <rect x="122" y="64" width="116" height="60" rx="8" fill="#000" opacity=".15"/>
+        <rect x="156" y="48" width="48" height="7" rx="3.5" fill="#3c3c3c"/>
+        <circle cx="150" cy="100" r="14" fill="#f4ede6"/>
+        <rect x="172" y="92" width="54" height="7" rx="3" fill="#f4ede6" opacity=".9"/>
+        <rect x="172" y="105" width="36" height="6" rx="3" fill="#f4ede6" opacity=".6"/>
+        <rect x="134" y="136" width="92" height="64" rx="6" fill="#f4ede6" opacity=".85"/>
+        <path d="M134 184 L160 162 L180 178 L204 154 L226 170 L226 200 L134 200 Z" fill="#9db6c4" opacity=".9"/>
+        <circle cx="150" cy="152" r="8" fill="#e0b03c"/>
+        <path d="M150 222 C150 214 162 214 162 222 C162 230 150 236 150 236 C150 236 138 230 138 222 C138 214 150 214 150 222Z" fill="#df4125" transform="translate(8,0)"/>
+        <rect x="184" y="216" width="42" height="8" rx="4" fill="#f4ede6" opacity=".8"/>
+        <circle cx="268" cy="84" r="20" fill="#df4125"/>
+        <path d="M268 76 C268 70 278 70 278 76 C278 82 268 88 268 88 C268 88 258 82 258 76 C258 70 268 70 268 76Z" fill="#fff"/>
+        <circle cx="282" cy="140" r="14" fill="#e0b03c"/>
+        <path d="M276 140 L281 145 L290 134" stroke="#fff" stroke-width="3" fill="none"/>
+        <circle cx="92" cy="180" r="16" fill="#2c5d34"/>
+        <path d="M86 180 Q92 170 98 180 Q92 188 86 180" fill="#fff"/>
+      </g>
+    </symbol>
+
+    <!-- monitor with dashboard (solutions / analytics) -->
+    <symbol id="icon-monitor" viewBox="0 0 360 300" overflow="visible">
+      <g filter="url(#rough)">
+        <rect x="44" y="56" width="272" height="170" rx="12" fill="#1d1e1f"/>
+        <rect x="56" y="68" width="248" height="146" rx="6" fill="currentColor"/>
+        <rect x="68" y="82" width="100" height="56" rx="5" fill="#f4ede6" opacity=".9"/>
+        <path d="M76 126 L98 104 L116 118 L142 92" stroke="#df4125" stroke-width="5" fill="none"/>
+        <rect x="180" y="82" width="110" height="26" rx="5" fill="#f4ede6" opacity=".75"/>
+        <rect x="180" y="116" width="110" height="26" rx="5" fill="#f4ede6" opacity=".55"/>
+        <rect x="68" y="152" width="46" height="48" rx="5" fill="#f4ede6" opacity=".5"/>
+        <rect x="124" y="166" width="46" height="34" rx="5" fill="#f4ede6" opacity=".65"/>
+        <rect x="180" y="152" width="110" height="48" rx="5" fill="#9db6c4" opacity=".6"/>
+        <path d="M150 226 L210 226 L222 258 L138 258 Z" fill="#1d1e1f"/>
+        <rect x="110" y="258" width="140" height="12" rx="6" fill="#1d1e1f"/>
+      </g>
+    </symbol>
+
+    <!-- app screen with price list (OneStop project) -->
+    <symbol id="icon-app" viewBox="0 0 150 320" overflow="visible">
+      <g filter="url(#rough)">
+        <rect x="20" y="8" width="110" height="304" rx="20" fill="#1d1e1f"/>
+        <rect x="30" y="30" width="90" height="262" rx="10" fill="currentColor"/>
+        <rect x="52" y="16" width="46" height="7" rx="3.5" fill="#3c3c3c"/>
+        <rect x="40" y="44" width="70" height="14" rx="4" fill="#f4ede6" opacity=".95"/>
+        <rect x="40" y="74" width="70" height="34" rx="6" fill="#f4ede6" opacity=".7"/>
+        <rect x="40" y="116" width="70" height="34" rx="6" fill="#f4ede6" opacity=".7"/>
+        <rect x="40" y="158" width="70" height="34" rx="6" fill="#fff"/>
+        <rect x="40" y="158" width="6" height="34" fill="#df4125"/>
+        <circle cx="98" cy="175" r="9" fill="#2c5d34"/>
+        <path d="M93 175 L97 179 L104 170" stroke="#fff" stroke-width="2.6" fill="none"/>
+        <rect x="40" y="200" width="70" height="34" rx="6" fill="#f4ede6" opacity=".7"/>
+        <rect x="48" y="252" width="54" height="16" rx="8" fill="#df4125"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ====================== LOADER ====================== -->
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="loader__splash" viewBox="0 0 700 360"><use href="#splash" style="color:#df4125"/></svg>
+  <div class="loader__mono">HS</div>
+  <div class="loader__dots"><i></i><i></i><i></i></div>
+</div>
+
+<!-- ====================== MASTHEAD ====================== -->
+<header class="masthead">
+  <a class="masthead__logo" href="#top" aria-label="Home"><em>HATIM</em>&nbsp;S.</a>
+  <button class="masthead__share" aria-label="Share" id="shareBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg>
+  </button>
+</header>
+
+<!-- scroll height driver -->
+<div class="track" id="track"></div>
+
+<!-- ====================== 2D WORLD (staircase of scenes, laid out by JS) ====================== -->
+<main class="world" id="world">
+
+  <!-- the paper plane lives in the WORLD and is overtaken by the camera -->
+  <div class="world-car" id="worldCar">
+    <svg viewBox="0 0 600 260" class="car-svg"><use href="#icon-plane" style="color:#df4125"/></svg>
+    <span class="figno">Fig 1</span>
+    <span class="scrollhint">Scroll to continue</span>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section class="panel scene panel--hero" data-scene="hero" id="top">
+    <div class="hero__inner">
+      <span class="chip chip--lg reveal">DIGITAL STRATEGY · MUMBAI</span>
+      <h1 class="hero__title reveal">HATIM<br>SAMPALWALA</h1>
+      <p class="hero__sub reveal">Management &amp; marketing student building brands
+      through social media, SEO and ecommerce.</p>
+    </div>
+    <div class="hero__car--mobile">
+      <svg viewBox="0 0 600 260" class="car-svg"><use href="#icon-plane" style="color:#df4125"/></svg>
+    </div>
+  </section>
+
+  <!-- ============ INTRO (same row — the plane is still gliding past) ============ -->
+  <section class="panel scene panel--intro" data-scene="intro">
+    <div class="col col--rule reveal">
+      <p>I'm Hatim Sampalwala, pursuing a Bachelor's in Digital Strategy at
+      Jai Hind College, Mumbai. I'm passionate about digital marketing, business
+      analytics and strategic planning — and I like applying classroom theory to
+      real clients, real budgets and real deadlines.</p>
+      <p class="note"><strong>Scroll sideways through the journey — every chapter
+      below is a real role, from college media teams to live client accounts.</strong></p>
+    </div>
+    <i class="ticks ticks--bottom"></i>
+    <i class="rib rib--tr"></i>
+  </section>
+
+  <!-- descent 1 -->
+  <div class="gap gap--step scene" data-scene="gap1"><i class="gap__rib"></i><i class="gap__dash"></i></div>
+
+  <!-- ============ ABOUT ESSAY ============ -->
+  <section class="panel scene panel--essay tri-tl" data-scene="essay">
+    <div class="col reveal">
+      <h2 class="h-sans">ABOUT ME</h2>
+      <p>Since starting the BDS program in 2024 I've stacked up hands-on
+      experience across social media management, SEO, content creation and
+      ecommerce operations — usually two or three roles at a time. I learn
+      fastest inside live accounts: posting calendars, audits, dashboards and
+      order queues beat theory every day of the week.</p>
+    </div>
+    <div class="col reveal">
+      <h2 class="h-sans">WHAT I DO</h2>
+      <p>Social media management and content curation for multiple brands.
+      SEO audits, keyword research and competitor analysis with Semrush, Ahrefs
+      and Screaming Frog. Ecommerce operations — listings, customer queries,
+      packing and logistics. Content built with AI tools and optimized for both
+      search engines and answer engines.</p>
+      <h2 class="h-sans" style="margin-top:6vh">HOW I WORK</h2>
+      <p>Plan the calendar, ship consistently, read the metrics, iterate.
+      Comfortable leading a media department or plugging into someone else's
+      workflow as an intern — whatever the team needs.</p>
+    </div>
+    <div class="col reveal">
+      <div class="chart-card">
+        <h3 class="h-sans h-sans--sm">TOY KINGDOM — PROFILE VISITS</h3>
+        <svg viewBox="0 0 320 120" class="chart">
+          <line x1="10" y1="100" x2="310" y2="100" stroke="#3a3a3a" stroke-width="1"/>
+          <line x1="80" y1="40" x2="80" y2="100" stroke="#96887544" stroke-width="1"/>
+          <line x1="160" y1="40" x2="160" y2="100" stroke="#96887544" stroke-width="1"/>
+          <line x1="240" y1="40" x2="240" y2="100" stroke="#96887544" stroke-width="1"/>
+          <path class="weight-line" d="M14 96 L40 92 L66 90 L92 84 L118 80 L144 72 L170 66 L196 56 L222 48 L248 40 L274 34 L292 28"
+                fill="none" stroke="#df4125" stroke-width="2.5"/>
+          <circle cx="292" cy="28" r="5" fill="#df4125"/>
+          <text x="252" y="20" font-size="14" font-family="Oswald,sans-serif" fill="#3a3a3a">88K/MO</text>
+          <text x="14" y="116" font-size="12" font-family="Oswald,sans-serif" fill="#3a3a3a">AUG 25</text>
+          <text x="262" y="116" font-size="12" font-family="Oswald,sans-serif" fill="#3a3a3a">NOW</text>
+        </svg>
+        <div class="ticks ticks--tan"></div>
+      </div>
+      <!-- L-arrow: the road turns down, then right -->
+      <svg viewBox="0 0 200 290" class="l-arrow reveal" aria-hidden="true">
+        <g fill="#df4125" filter="url(#rough)">
+          <rect x="20" y="0" width="74" height="16"/>
+          <rect x="20" y="28" width="74" height="16"/>
+          <rect x="20" y="56" width="74" height="16"/>
+          <path d="M20 84 H94 V190 H140 V160 L200 215 L140 270 V240 H20 Z"/>
+        </g>
+      </svg>
+    </div>
+    <i class="vrule" style="left:26%"></i>
+    <i class="rib rib--tr"></i>
+    <i class="tri tri--bl"></i>
+  </section>
+
+  <!-- descent 2 -->
+  <div class="gap gap--step scene" data-scene="gap2"><i class="gap__rib"></i><i class="gap__dash"></i></div>
+
+  <!-- ============ EXPERIENCE CHAPTERS — injected by JS ============ -->
+  <div id="chapters" style="display:contents"></div>
+
+  <!-- descent 3 -->
+  <div class="gap gap--step scene" data-scene="gap3"><i class="gap__rib"></i><i class="gap__dash"></i></div>
+
+  <!-- ============ PROJECT: ONESTOP APP ============ -->
+  <section class="panel scene panel--compare tri-tl" data-scene="compare">
+    <div class="compare-card reveal">
+      <div class="compare-card__cars">
+        <figure>
+          <figcaption class="h-sans h-sans--sm">RIDES</figcaption>
+          <div class="lane"><svg viewBox="0 0 150 320" class="topcar"><use href="#icon-app" style="color:#27418f"/></svg></div>
+        </figure>
+        <figure>
+          <figcaption class="h-sans h-sans--sm">FOOD</figcaption>
+          <div class="lane lane--wide"><svg viewBox="0 0 150 320" class="topcar"><use href="#icon-app" style="color:#e07c24"/></svg></div>
+        </figure>
+      </div>
+      <div class="compare-card__text">
+        <div class="ticks ticks--tan" style="margin-bottom:14px"></div>
+        <span class="chip">PROJECT</span>
+        <h2 class="h-sans" style="margin-top:12px">ONESTOP APP</h2>
+        <p>A prototype app that compares ride and food-delivery prices across top
+        platforms in one place, so users find the best deal without juggling
+        apps. Built with <strong>Muhsin Gigani</strong> and
+        <strong>Pavitra Rajpal</strong>, mentored by <strong>Dr. Rakhi
+        Sharma</strong>, and demonstrated at the Jai Hind College
+        Entrepreneurship Summit. The team is still refining the product.</p>
+      </div>
+    </div>
+    <i class="rib rib--tr"></i>
+  </section>
+
+  <!-- descent 4 -->
+  <div class="gap gap--step scene" data-scene="gap4"><i class="gap__rib"></i><i class="gap__dash"></i></div>
+
+  <!-- ============ SKILLS — step 1 ============ -->
+  <section class="panel scene panel--future tri-tl" data-scene="future1">
+    <div class="col reveal">
+      <h2 class="h-sans">SKILLS &amp; TOOLS</h2>
+      <p>Three years of stacked roles built a toolkit that covers strategy,
+      content and the unglamorous operational work in between. Marketing first,
+      tools close behind, soft skills holding it together.</p>
+    </div>
+    <div class="future__block reveal">
+      <h2 class="h-serif">MARKETING<br>&amp; DIGITAL</h2>
+      <div class="col col--rule">
+        <div class="tags">
+          <span class="tag">Digital Marketing</span>
+          <span class="tag">Social Media Marketing</span>
+          <span class="tag">Social Media Optimization</span>
+          <span class="tag">SEO</span>
+          <span class="tag">AEO</span>
+          <span class="tag">Content Creation</span>
+          <span class="tag">Market Research</span>
+          <span class="tag">Influencer Collaboration</span>
+        </div>
+      </div>
+    </div>
+    <i class="vrule" style="left:38%"></i>
+    <i class="rib rib--tr"></i>
+  </section>
+
+  <!-- descent 5 -->
+  <div class="gap gap--step scene" data-scene="gap5"><i class="gap__rib"></i><i class="gap__dash"></i></div>
+
+  <!-- ============ SKILLS — step 2: TOOLS ============ -->
+  <section class="panel scene panel--future tri-tl" data-scene="future2">
+    <div class="future__block reveal">
+      <h2 class="h-serif">TOOLS<br>I USE</h2>
+      <div class="col col--rule">
+        <div class="tags">
+          <span class="tag">Canva</span>
+          <span class="tag">Semrush</span>
+          <span class="tag">Ahrefs</span>
+          <span class="tag">Screaming Frog</span>
+          <span class="tag">SEO Meta One Click</span>
+          <span class="tag">Google Keyword Planner</span>
+          <span class="tag">LinkedIn Sales Navigator</span>
+          <span class="tag">Lusha / Apollo.io</span>
+          <span class="tag">Google Flow</span>
+          <span class="tag">WordPress</span>
+          <span class="tag">Microsoft Office</span>
+        </div>
+        <p style="margin-top:24px">Plus the soft skills that make tools matter:
+        <strong>project management, teamwork and communication.</strong></p>
+      </div>
+    </div>
+    <i class="rib rib--tr"></i>
+  </section>
+
+  <!-- descent 6 -->
+  <div class="gap gap--step scene" data-scene="gap6"><i class="gap__rib"></i><i class="gap__dash"></i></div>
+
+  <!-- ============ EDUCATION — step 3 ============ -->
+  <section class="panel scene panel--future tri-tl" data-scene="future3">
+    <div class="future__block reveal">
+      <h2 class="h-serif">EDUCATION</h2>
+      <figure class="fig fig--sm">
+        <svg viewBox="0 0 700 360" class="fig__splash"><use href="#splash" style="color:#2e4f8f"/></svg>
+        <svg viewBox="0 0 360 300" class="fig__topcar"><use href="#icon-grad" style="color:#2e4f8f"/></svg>
+        <figcaption class="figno">Fig 10</figcaption>
+      </figure>
+      <div class="col col--rule">
+        <p><strong>Jai Hind College, Mumbai</strong><br>
+        Bachelor in Digital Strategy (BDS) — Marketing &amp; Management<br>
+        Jun 2024 – Jun 2027 <em>(ongoing)</em></p>
+        <p><strong>St. Xavier Boys Academy</strong><br>
+        Secondary School</p>
+        <p><strong>Languages:</strong> English · Hindi · Gujarati</p>
+      </div>
+    </div>
+    <div class="ticks ticks--tan ticks--abs"></div>
+  </section>
+
+  <!-- ============ OUTRO ============ -->
+  <section class="panel scene panel--outro" data-scene="outro">
+    <div class="col col--rule col--center reveal">
+      <p>The semester never really ends. There's always a calendar to fill, an
+      audit to run, a dashboard to read — and as one role wraps up, the next
+      one is already loading. If you're building something, I'd love to help.</p>
+    </div>
+  </section>
+
+  <!-- flat asphalt breather -->
+  <div class="gap scene" data-scene="gapE"><i class="gap__dash gap__dash--center"></i></div>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="panel scene panel--asphalt panel--credits" data-scene="credits">
+    <i class="roadline roadline--left"></i>
+    <div class="credits reveal">
+      <span class="chip">GET IN TOUCH</span>
+      <h2 class="credits__title">LET'S WORK TOGETHER</h2>
+      <p>Open to internships, collaborations and freelance work in social media,
+      SEO and ecommerce. Based in Mumbai — happy to work anywhere a Wi-Fi signal
+      reaches.</p>
+      <hr>
+      <nav class="related">
+        <a href="mailto:hsampalwala@gmail.com">hsampalwala@gmail.com</a>
+        <a href="tel:+919167088697">+91 91670 88697</a>
+        <a href="https://www.linkedin.com/in/hatim-sampalwala-a27a1828a/" target="_blank" rel="noopener">LinkedIn — hatim-sampalwala</a>
+      </nav>
+      <p class="credits__loc">Mumbai, Maharashtra, India</p>
+    </div>
+    <footer class="sitefoot">
+      <span class="sitefoot__logo"><em>HATIM</em>&nbsp;S.</span>
+      <nav>
+        <a href="mailto:hsampalwala@gmail.com">Email</a>
+        <a href="tel:+919167088697">Phone</a>
+        <a href="https://www.linkedin.com/in/hatim-sampalwala-a27a1828a/" target="_blank" rel="noopener">LinkedIn</a>
+      </nav>
+      <p class="sitefoot__copy">© 2026 Hatim Sampalwala. Designed as a horizontal scrollytelling journey.</p>
+    </footer>
+  </section>
+
+</main>
+
+<script src="js/main.js"></script>
+</body>
+</html>
