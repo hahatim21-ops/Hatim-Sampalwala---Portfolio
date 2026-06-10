@@ -111,6 +111,7 @@ const LAYOUT = [
   }),
   { id: "gap3",    w: 700, dy: 60 },
   { id: "compare", w: 1700 },
+  { id: "projects", w: 1950 },
   { id: "gap4",    w: 700, dy: 60 },
   { id: "future1", w: 2100 },
   { id: "gap5",    w: 700, dy: 60 },
@@ -138,6 +139,8 @@ let pathLen = 0;
 let worldW = 0, worldH = 0;
 let target = 0, current = 0, lastDrawn = -1, lastT = 0;
 let revealItems = [], carBaseX = 0;
+const sceneX = {};   // scene id -> world x (filled by layout, for nav jumps)
+const progressBar = $("#progressBar");
 
 function layout() {
   if (isMobile()) {
@@ -153,6 +156,7 @@ function layout() {
   for (const spec of LAYOUT) {
     const el = $(`[data-scene="${spec.id}"]`);
     if (!el) continue;
+    sceneX[spec.id] = x;
     el.style.left = x + "px";
     el.style.top = (yVh * vh / 100) + "px";
     el.style.width = spec.w + "px";
@@ -265,16 +269,55 @@ function frame(now) {
       for (const it of revealItems) {
         if (!it.done && it.x < edge) { it.el.classList.add("is-in"); it.done = true; }
       }
+
+      if (progressBar) progressBar.style.width = (current / pathLen * 100) + "%";
     }
   }
   requestAnimationFrame(frame);
 }
+
+/* ---------- masthead nav: jump the camera to a scene ----------------------- */
+function distForX(x) {
+  // path x is monotonically increasing, so binary-search the table by x
+  let lo = 0, hi = table.length - 1;
+  while (hi - lo > 1) {
+    const m = (lo + hi) >> 1;
+    (table[m].x <= x ? lo = m : hi = m);
+  }
+  return table[lo].d;
+}
+
+$$("[data-goto]").forEach((a) => {
+  a.addEventListener("click", (e) => {
+    const id = a.dataset.goto;
+    const el = $(`[data-scene="${id}"]`);
+    if (!el) return;
+    e.preventDefault();
+    if (isMobile() || pathLen <= 0) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    const d = Math.min(pathLen, distForX(sceneX[id] || 0));
+    current = Math.max(0, d - 700);          // land with a short glide-in
+    scrollTo(0, Math.round(d * SPEED));
+  });
+});
 
 /* keyboard panning */
 addEventListener("keydown", (e) => {
   if (e.key === "ArrowRight" || e.key === "ArrowDown") scrollBy(0, 260);
   if (e.key === "ArrowLeft" || e.key === "ArrowUp") scrollBy(0, -260);
 });
+
+/* scroll hint: gone after the first real scroll */
+const scrollHint = $("#scrollHint");
+const dismissHint = () => {
+  if (scrollY > 80) {
+    scrollHint.classList.add("is-gone");
+    removeEventListener("scroll", dismissHint);
+  }
+};
+addEventListener("scroll", dismissHint, { passive: true });
 
 /* ---------- loader: monogram + pulse dots ---------------------------------- */
 const loader = $("#loader");
