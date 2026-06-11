@@ -122,15 +122,16 @@ body::after {
   position: fixed; left: 50%; bottom: 26px; z-index: 55;
   transform: translateX(-50%);
   display: flex; align-items: center; gap: 12px;
-  background: var(--cream); border: 1px solid var(--ink); color: var(--ink);
-  font-family: var(--cond); font-weight: 500; font-size: 13px;
+  background: var(--cream); border: 1.5px solid var(--ink); color: var(--ink);
+  font-family: var(--cond); font-weight: 500; font-size: 14px;
   letter-spacing: 0.16em; text-transform: uppercase;
-  padding: 11px 20px;
-  box-shadow: 4px 4px 0 rgba(29, 30, 31, 0.55);
+  padding: 13px 24px;
+  box-shadow: 5px 5px 0 var(--red);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .scrollhint-fixed__arrow { color: var(--red); animation: hintbob 1.2s ease-in-out infinite; }
-.scrollhint-fixed__dir { color: var(--red); font-size: 17px; }
+.scrollhint-fixed__dir { color: var(--red); font-size: 18px; animation: hintslide 1.2s ease-in-out infinite; }
+@keyframes hintslide { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(7px); } }
 .scrollhint-fixed.is-gone {
   opacity: 0; transform: translateX(-50%) translateY(16px);
   pointer-events: none;
@@ -241,6 +242,24 @@ body::after {
 }
 .chip--lg { font-size: 17px; padding: 6px 14px 7px; }
 
+/* "open to internships" availability badge */
+.hero__chips { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.chip--open {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--cream); color: var(--ink); border: 1.5px solid var(--ink);
+  font-family: var(--cond); font-weight: 500; font-size: 13px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 5px 14px 6px;
+}
+.chip--open i {
+  width: 9px; height: 9px; border-radius: 50%; background: #2c9e4b;
+  animation: openpulse 1.8s ease-out infinite;
+}
+@keyframes openpulse {
+  0% { box-shadow: 0 0 0 0 rgba(44, 158, 75, 0.55); }
+  70%, 100% { box-shadow: 0 0 0 7px rgba(44, 158, 75, 0); }
+}
+
 /* buttons (resume download, project links) */
 .btn {
   display: inline-block; background: var(--red); color: #fff;
@@ -327,11 +346,21 @@ body::after {
 }
 .chart-card {
   border: 1px solid var(--ink);
-  padding: 18px 18px 22px;
+  padding: 20px 20px 22px;
   background: var(--cream);
-  width: 360px;
+  width: 400px;
 }
-.chart { width: 100%; height: auto; margin: 8px 0 16px; }
+.chart-card__stat { display: flex; align-items: flex-start; gap: 14px; }
+.chart-card__stat strong {
+  font-family: var(--cond); font-weight: 600; font-size: 58px;
+  line-height: 0.9; color: var(--red); letter-spacing: 0.01em;
+}
+.chart-card__stat span {
+  font-family: var(--cond); font-weight: 500; font-size: 12.5px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #3a3a3a; line-height: 1.6; padding-top: 4px;
+}
+.chart { width: 100%; height: auto; margin: 14px 0 16px; }
 .chart-card--mini { width: 300px; padding: 14px 14px 16px; }
 .chart-card--mini .chart { margin: 4px 0 0; }
 .l-arrow { width: 150px; height: auto; margin: 9vh 0 0 6vh; display: block; }
@@ -547,6 +576,7 @@ body::after {
   .chapter__title { white-space: normal; font-size: clamp(40px, 11vw, 64px); }
   .chapter--alt .chapter__head { text-align: left; }
   .fig, .col { width: 100% !important; max-width: 460px; }
+  .chart-card { width: 100%; max-width: 420px; }
   .fig__driver { top: -20%; }
   .panel--essay, .panel--future { flex-direction: column; gap: 60px; padding: 80px 26px; }
   .future__block { flex-direction: column; gap: 30px; }
