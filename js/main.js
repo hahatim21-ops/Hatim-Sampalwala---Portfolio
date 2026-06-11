@@ -23,7 +23,7 @@ const CHAPTERS = [
     stat: { n: "5 MO", cap: "Leading the department" },
     text: "Led the media department for Jai Hind College's digital initiative — owning design and visual content in <strong>Canva</strong> and keeping a student team shipping on schedule." },
   { label: "APR 25", end: "JUN 25", org: "SUSHIL FINANCE", role: "SEO INTERN",
-    icon: "icon-seo", color: "#c4231a", splash: "#df4125",
+    icon: "icon-seo", color: "#c4231a", splash: "#c8392a",
     stat: { n: "3", cap: "Audit tools mastered" },
     text: "Ran SEO audits for website performance, keyword research for rankings, and competitor analysis to read the market — reviewing speed, layout and content with <strong>Semrush, Ahrefs and Screaming Frog</strong>." },
   { label: "AUG 25", end: "PRESENT", org: "TOY KINGDOM", role: "ECOMMERCE & SOCIAL",
@@ -35,7 +35,7 @@ const CHAPTERS = [
     stat: { n: "4 MO", cap: "BMS initiative media" },
     text: "Led the media department for Talaash, a Jai Hind BMS initiative — <strong>social media and photography</strong> for the event cycle, end to end." },
   { label: "JAN 26", end: "PRESENT", org: "THE SOCIAL EDIT", role: "SOCIAL MEDIA MANAGER",
-    icon: "icon-phone", color: "#d6452c", splash: "#df4125",
+    icon: "icon-phone", color: "#d6452c", splash: "#c8392a",
     stat: { n: "2–3", cap: "Brands curated / month" },
     text: "Managing Instagram posting and engagement for an agency roster — curating content for <strong>two to three brands every month</strong>, each with its own voice and calendar." },
   { label: "MAR 26", end: "PRESENT", org: "DJANGO", role: "SOLUTIONS INTERN",
@@ -328,8 +328,135 @@ document.body.style.overflow = "hidden";
 setTimeout(() => {
   loader.classList.add("is-done");
   document.body.style.overflow = "";
+  document.body.classList.add("is-booted");   // kicks off hero letter + tagline intro
   layout();
 }, 1900);
+
+/* ---------- interaction layer (vanilla takes on the ReactBits set) ---------- */
+const FINE = matchMedia("(pointer: fine) and (min-width: 901px)");
+
+/* SplitText: wrap every hero letter so CSS can stagger them in */
+(() => {
+  const h = $(".hero__title");
+  if (!h) return;
+  let i = 0;
+  [...h.childNodes].forEach((node) => {
+    if (node.nodeType !== Node.TEXT_NODE) return;
+    const frag = document.createDocumentFragment();
+    for (const ch of node.textContent) {
+      const s = document.createElement("span");
+      s.className = "lt";
+      s.style.setProperty("--i", i++);
+      s.textContent = ch;
+      frag.appendChild(s);
+    }
+    node.replaceWith(frag);
+  });
+})();
+
+/* MagneticButton: hero CTAs lean toward the cursor */
+if (FINE.matches) {
+  $$(".hero__cta .btn").forEach((b) => {
+    b.addEventListener("mousemove", (e) => {
+      const r = b.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      b.style.transition = "transform .15s ease-out";
+      b.style.transform = `translate(${dx * 0.22}px, ${dy * 0.32}px)`;
+    });
+    b.addEventListener("mouseleave", () => {
+      b.style.transition = "transform .45s cubic-bezier(.22,1,.36,1)";
+      b.style.transform = "";
+    });
+  });
+}
+
+/* SpotlightCard: gold glow tracks the mouse across each role panel */
+if (FINE.matches) {
+  $$(".chapter").forEach((c) => {
+    c.addEventListener("mousemove", (e) => {
+      const r = c.getBoundingClientRect();
+      c.style.setProperty("--mx", (e.clientX - r.left) + "px");
+      c.style.setProperty("--my", (e.clientY - r.top) + "px");
+    });
+  });
+}
+
+/* TiltCard: project + OneStop cards tip toward the cursor in 3D */
+if (FINE.matches) {
+  $$(".proj-card, .compare-card").forEach((card) => {
+    card.addEventListener("mousemove", (e) => {
+      if (!card.classList.contains("is-in")) return;   // wait for the reveal
+      const r = card.getBoundingClientRect();
+      const rx = ((e.clientY - r.top) / r.height - 0.5) * -5;
+      const ry = ((e.clientX - r.left) / r.width - 0.5) * 5;
+      card.style.transition = "transform .15s ease-out";
+      card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    });
+    card.addEventListener("mouseleave", () => {
+      card.style.transition = "transform .5s cubic-bezier(.22,1,.36,1)";
+      card.style.transform = "";
+    });
+  });
+}
+
+/* CountUp: the 88K stat counts up when its card reveals (or scrolls in on mobile) */
+(() => {
+  const stat = $(".chart-card__stat strong");
+  if (!stat) return;
+  const finalText = stat.textContent;            // "88K"
+  const n = parseInt(finalText, 10) || 0;
+  let done = false;
+  const run = () => {
+    if (done) return;
+    done = true;
+    const t0 = performance.now(), dur = 1400;
+    const tick = (now) => {
+      const t = Math.min(1, (now - t0) / dur);
+      const e = 1 - Math.pow(1 - t, 3);          // ease-out cubic
+      stat.textContent = Math.round(n * e) + "K";
+      if (t < 1) requestAnimationFrame(tick);
+      else stat.textContent = finalText;
+    };
+    stat.textContent = "0K";
+    requestAnimationFrame(tick);
+  };
+  const host = stat.closest(".reveal");
+  if (host) {
+    if (host.classList.contains("is-in")) run();
+    else new MutationObserver((_, mo) => {
+      if (host.classList.contains("is-in")) { run(); mo.disconnect(); }
+    }).observe(host, { attributes: true, attributeFilter: ["class"] });
+  }
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((es) => {
+      if (es.some((x) => x.isIntersecting)) { run(); io.disconnect(); }
+    }, { threshold: 0.4 });
+    io.observe(stat);
+  }
+})();
+
+/* Cursor: small red dot that grows into a ring over anything clickable */
+if (FINE.matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const dot = $("#cursor");
+  if (dot) {
+    document.body.classList.add("has-cursor");
+    let cx = innerWidth / 2, cy = innerHeight / 2, tx = cx, ty = cy;
+    addEventListener("mousemove", (e) => {
+      tx = e.clientX; ty = e.clientY;
+      dot.classList.toggle("is-link", !!e.target.closest("a, button, .tag, .proj-card"));
+      dot.classList.remove("is-hidden");
+    }, { passive: true });
+    document.documentElement.addEventListener("mouseleave", () => dot.classList.add("is-hidden"));
+    (function follow() {
+      cx += (tx - cx) * 0.3;
+      cy += (ty - cy) * 0.3;
+      dot.style.left = cx + "px";
+      dot.style.top = cy + "px";
+      requestAnimationFrame(follow);
+    })();
+  }
+}
 
 /* ---------- share ----------------------------------------------------------- */
 $("#shareBtn").addEventListener("click", async () => {
